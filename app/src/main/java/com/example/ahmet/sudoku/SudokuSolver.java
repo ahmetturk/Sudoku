@@ -61,12 +61,6 @@ public class SudokuSolver {
         return cellNumber; // return an unassinged cell from sudoku
     }
 
-    private int getValueFromDomain(int position, int i) {
-        // return a value from domain of cell at @position
-        Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
-        return sudoku.cells[position].domain.get(i);
-    }
-
     private boolean testConsistency(int position, int value) {
         Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
 
