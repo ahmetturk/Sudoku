@@ -1,8 +1,5 @@
 package com.example.ahmet.sudoku;
 
-import android.app.AlertDialog;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,31 +15,30 @@ public class SudokuSolver {
         return sudokuList.get(sudokuList.size() - 1);
     }
 
-    public boolean solve() {
+    public void solve() {
+        boolean result;
+        do {
+            result = step();
+        } while (result);
+    }
+
+    public boolean step() {
         Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
 
-        // select an unassigned variable, return -1 if there is none
         int unassignedCell = selectUnassingnedCell();
         if (unassignedCell == -1) {
+            return false;
+        }
+
+        int value = sudoku.cells[unassignedCell].getValueFromDomain();
+        if (value == -1) {
+            sudokuList.remove(sudokuList.size() - 1);
             return true;
         }
-        else {
-            boolean result = false;
-            for (int i = 0; i < sudoku.cells[unassignedCell].domain.size(); i++) {
-                int value = getValueFromDomain(unassignedCell, i);
-                boolean isConsistent = testConsistency(unassignedCell, value); // forward checking
-                if (isConsistent) {
-                    sudokuList.add(new Sudoku(sudoku, unassignedCell, value));
-                    result = solve();
-                    if (result) {
-                        return true;
-                    }
-                }
-            }
-            if (!result) { // means there is not any value consistent so go back!!!
-                sudokuList.remove(sudokuList.size() - 1);
-                return false;
-            }
+
+        boolean isConsistent = testConsistency(unassignedCell, value);
+        if (isConsistent) {
+            sudokuList.add(new Sudoku(sudoku, unassignedCell, value));
         }
         return true;
     }

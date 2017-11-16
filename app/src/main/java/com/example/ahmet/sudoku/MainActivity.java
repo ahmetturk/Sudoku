@@ -1,11 +1,11 @@
 package com.example.ahmet.sudoku;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,13 +19,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         gridView = (GridView) findViewById(R.id.sudoku_grid);
+        gridView.setVisibility(View.INVISIBLE);
 
         Button solveButton = (Button) findViewById(R.id.solve_button);
         solveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sudokuSolver.solve();
-                sudokuAdapter.setSudoku(sudokuSolver.getSudoku());
+                if (sudokuSolver != null) {
+                    sudokuSolver.solve();
+                    sudokuAdapter.setSudoku(sudokuSolver.getSudoku());
+                } else {
+                    Toast.makeText(MainActivity.this, "Select a Sudoku", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button stepButton = (Button) findViewById(R.id.step_button);
+        stepButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sudokuSolver != null) {
+                    sudokuSolver.step();
+                    sudokuAdapter.setSudoku(sudokuSolver.getSudoku());
+                } else {
+                    Toast.makeText(MainActivity.this, "Select a Sudoku", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -42,10 +60,7 @@ public class MainActivity extends AppCompatActivity {
                         0, 0, 8, 0, 0, 6, 2, 0, 3,
                         0, 2, 4, 3, 0, 0, 8, 0, 0,
                         1, 0, 0, 0, 9, 2, 0, 0, 4};
-                Sudoku sudoku = new Sudoku(sudokuNumbers);
-                sudokuSolver = new SudokuSolver(sudoku);
-                sudokuAdapter = new SudokuAdapter(sudokuSolver.getSudoku());
-                gridView.setAdapter(sudokuAdapter);
+                showSudoku(new Sudoku(sudokuNumbers));
             }
         });
 
@@ -62,10 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         9, 0, 0, 0, 0, 6, 3, 0, 0,
                         4, 0, 0, 8, 0, 0, 0, 0, 2,
                         0, 2, 7, 0, 0, 4, 1, 0, 0};
-                Sudoku sudoku = new Sudoku(sudokuNumbers);
-                sudokuSolver = new SudokuSolver(sudoku);
-                sudokuAdapter = new SudokuAdapter(sudokuSolver.getSudoku());
-                gridView.setAdapter(sudokuAdapter);
+                showSudoku(new Sudoku(sudokuNumbers));
             }
         });
 
@@ -82,11 +94,15 @@ public class MainActivity extends AppCompatActivity {
                         1, 0, 0, 0, 6, 0, 0, 9, 0,
                         0, 4, 0, 5, 0, 0, 0, 0, 0,
                         2, 0, 0, 0, 1, 0, 0, 0, 7};
-                Sudoku sudoku = new Sudoku(sudokuNumbers);
-                sudokuSolver = new SudokuSolver(sudoku);
-                sudokuAdapter = new SudokuAdapter(sudokuSolver.getSudoku());
-                gridView.setAdapter(sudokuAdapter);
+                showSudoku(new Sudoku(sudokuNumbers));
             }
         });
+    }
+
+    private void showSudoku(Sudoku sudoku) {
+        sudokuSolver = new SudokuSolver(sudoku);
+        sudokuAdapter = new SudokuAdapter(sudokuSolver.getSudoku());
+        gridView.setVisibility(View.VISIBLE);
+        gridView.setAdapter(sudokuAdapter);
     }
 }

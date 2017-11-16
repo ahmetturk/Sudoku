@@ -6,6 +6,7 @@ import java.util.List;
 public class Cell {
     public int value;
     public List<Integer> domain;
+    private int domainIterator;
 
     public Cell() {
         this.value = 0;
@@ -13,5 +14,13 @@ public class Cell {
         for(int i = 1; i < 10; i++) {
             domain.add(i);
         }
+        domainIterator = 0;
+    }
+
+    public int getValueFromDomain() {
+        if (domainIterator < domain.size()) {
+            return domain.get(domainIterator++);
+        }
+        return -1;
     }
 }
