@@ -1,12 +1,14 @@
 package com.example.ahmet.sudoku;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 
-public class SudokuAdapter extends BaseAdapter{
+import java.util.Locale;
+
+public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdapterViewHolder> {
 
     private Sudoku mSudoku;
 
@@ -19,34 +21,36 @@ public class SudokuAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public int getCount() {
+    public SudokuAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell, parent, false);
+        return new SudokuAdapterViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull SudokuAdapterViewHolder holder, int position) {
+        int value = mSudoku.cells[position].value;
+
+        if (value != 0) {
+            holder.mCellText.setText(String.format(Locale.US, "%d", value));
+        } else {
+            holder.mCellText.setText(" ");
+        }
+    }
+
+    @Override
+    public int getItemCount() {
         return mSudoku.cells.length;
     }
 
-    @Override
-    public Integer getItem(int position) {
-        return mSudoku.cells[position].value;
-    }
+    public static class SudokuAdapterViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+        public CellTextView mCellText;
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell, null);
+        public SudokuAdapterViewHolder(View itemView) {
+            super(itemView);
+            mCellText = (CellTextView) itemView;
         }
-        TextView cellTextView = (TextView) convertView.findViewById(R.id.cell_text_view);
-        if (getItem(position) != 0) {
-            cellTextView.setText(getItem(position).toString());
-        }
-        else {
-            cellTextView.setText(" ");
-        }
-
-        return convertView;
     }
 }

@@ -1,8 +1,22 @@
 package com.example.ahmet.sudoku;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class Sudoku {
+public class Sudoku implements Parcelable {
+    public static final Parcelable.Creator<Sudoku> CREATOR
+            = new Parcelable.Creator<Sudoku>() {
+        public Sudoku createFromParcel(Parcel in) {
+            return new Sudoku(in);
+        }
+
+        public Sudoku[] newArray(int size) {
+            return new Sudoku[size];
+        }
+    };
+
     public Cell[] cells;
 
     public Sudoku(int [] numbers) {
@@ -40,6 +54,11 @@ public class Sudoku {
         cells[position].domain.clear();
         // now other variables that share domain with this variable need to narrow domain
         narrowDomain(position, value);
+    }
+
+    private Sudoku(Parcel in) {
+        cells = new Cell[81];
+        in.readTypedArray(cells, Cell.CREATOR);
     }
 
     // TODO: MOVE THIS
@@ -85,5 +104,15 @@ public class Sudoku {
                 }
             }
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeTypedArray(cells, 0);
     }
 }

@@ -1,55 +1,45 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/easy_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="@string/easy" />
 
     <Button
         android:id="@+id/medium_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/medium" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="playSudoku"
+        android:text="@string/medium"
+        app:layout_constraintBottom_toTopOf="@+id/hard_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/easy_button" />
+
+    <Button
+        android:id="@+id/easy_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="playSudoku"
+        android:text="@string/easy"
+        app:layout_constraintBottom_toTopOf="@+id/medium_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/hard_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="@string/hard" />
+        android:onClick="playSudoku"
+        android:text="@string/hard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/medium_button" />
 
-    <Button
-        android:id="@+id/solve_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/solve" />
-
-    <Button
-        android:id="@+id/step_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/step" />
-
-    <GridView
-        android:id="@+id/sudoku_grid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@android:color/darker_gray"
-        android:gravity="center"
-        android:horizontalSpacing="1dp"
-        android:numColumns="9"
-        android:paddingBottom="1dp"
-        android:paddingTop="1dp"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="1dp" />
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

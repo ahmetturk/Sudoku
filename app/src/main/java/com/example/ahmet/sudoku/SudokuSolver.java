@@ -7,7 +7,7 @@ public class SudokuSolver {
     private List<Sudoku> sudokuList;
 
     public SudokuSolver(Sudoku sudoku) {
-        sudokuList = new ArrayList<Sudoku>();
+        sudokuList = new ArrayList<>();
         sudokuList.add(sudoku);
     }
 

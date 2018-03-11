@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ahmet.sudoku.activity.SudokuActivity">
+
+    <Button
+        android:id="@+id/solve_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/solve"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/step_button" />
+
+    <Button
+        android:id="@+id/step_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/step"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/solve_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/sudoku_grid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:overScrollMode="never"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vdivider1"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toBottomOf="@id/sudoku_grid"
+        app:layout_constraintEnd_toStartOf="@+id/vdivider2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="@+id/sudoku_grid"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/vdivider2"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toBottomOf="@id/sudoku_grid"
+        app:layout_constraintEnd_toStartOf="@+id/vdivider3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/vdivider1"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/vdivider3"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@color/mainDivider"
+        app:layout_constraintBottom_toBottomOf="@id/sudoku_grid"
+        app:layout_constraintEnd_toStartOf="@+id/vdivider4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/vdivider2"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/vdivider4"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toBottomOf="@id/sudoku_grid"
+        app:layout_constraintEnd_toStartOf="@+id/vdivider5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/vdivider3"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/vdivider5"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toBottomOf="@id/sudoku_grid"
+        app:layout_constraintEnd_toStartOf="@+id/vdivider6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/vdivider4"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/vdivider6"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@color/mainDivider"
+        app:layout_constraintBottom_toBottomOf="@id/sudoku_grid"
+        app:layout_constraintEnd_toStartOf="@+id/vdivider7"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/vdivider5"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/vdivider7"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toBottomOf="@id/sudoku_grid"
+        app:layout_constraintEnd_toStartOf="@+id/vdivider8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/vdivider6"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/vdivider8"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toBottomOf="@id/sudoku_grid"
+        app:layout_constraintEnd_toEndOf="@+id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/vdivider7"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/hdivider1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toTopOf="@+id/hdivider2"
+        app:layout_constraintEnd_toEndOf="@id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sudoku_grid"
+        app:layout_constraintTop_toTopOf="@id/sudoku_grid" />
+
+    <View
+        android:id="@+id/hdivider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toTopOf="@+id/hdivider3"
+        app:layout_constraintEnd_toEndOf="@id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sudoku_grid"
+        app:layout_constraintTop_toBottomOf="@+id/hdivider1" />
+
+    <View
+        android:id="@+id/hdivider3"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@color/mainDivider"
+        app:layout_constraintBottom_toTopOf="@+id/hdivider4"
+        app:layout_constraintEnd_toEndOf="@id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sudoku_grid"
+        app:layout_constraintTop_toBottomOf="@+id/hdivider2" />
+
+    <View
+        android:id="@+id/hdivider4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toTopOf="@+id/hdivider5"
+        app:layout_constraintEnd_toEndOf="@id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sudoku_grid"
+        app:layout_constraintTop_toBottomOf="@+id/hdivider3" />
+
+    <View
+        android:id="@+id/hdivider5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toTopOf="@+id/hdivider6"
+        app:layout_constraintEnd_toEndOf="@id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sudoku_grid"
+        app:layout_constraintTop_toBottomOf="@+id/hdivider4" />
+
+    <View
+        android:id="@+id/hdivider6"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@color/mainDivider"
+        app:layout_constraintBottom_toTopOf="@+id/hdivider7"
+        app:layout_constraintEnd_toEndOf="@id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sudoku_grid"
+        app:layout_constraintTop_toBottomOf="@+id/hdivider5" />
+
+    <View
+        android:id="@+id/hdivider7"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toTopOf="@+id/hdivider8"
+        app:layout_constraintEnd_toEndOf="@id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sudoku_grid"
+        app:layout_constraintTop_toBottomOf="@+id/hdivider6" />
+
+    <View
+        android:id="@+id/hdivider8"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/smallDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/sudoku_grid"
+        app:layout_constraintEnd_toEndOf="@id/sudoku_grid"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sudoku_grid"
+        app:layout_constraintTop_toBottomOf="@+id/hdivider7" />
+
+</android.support.constraint.ConstraintLayout>
