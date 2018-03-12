@@ -22,22 +22,25 @@ public class SudokuSolver {
         } while (result);
     }
 
-    public boolean step() {
+    private boolean step() {
         Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
 
         int unassignedCell = selectUnassingnedCell();
         if (unassignedCell == -1) {
+            // this means sudoku is solved
             return false;
         }
 
-        int value = sudoku.cells[unassignedCell].getValueFromDomain();
+        int value = Utils.getValueFromDomain(sudoku.cells[unassignedCell]);
         if (value == -1) {
+            // wrong guess go back
             sudokuList.remove(sudokuList.size() - 1);
             return true;
         }
 
         boolean isConsistent = testConsistency(unassignedCell, value);
         if (isConsistent) {
+            // write a number to Sudoku
             sudokuList.add(new Sudoku(sudoku, unassignedCell, value));
         }
         return true;

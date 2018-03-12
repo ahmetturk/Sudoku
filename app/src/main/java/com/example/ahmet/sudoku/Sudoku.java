@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class Sudoku implements Parcelable {
+
+    @SuppressWarnings("unused")
     public static final Parcelable.Creator<Sudoku> CREATOR
             = new Parcelable.Creator<Sudoku>() {
         public Sudoku createFromParcel(Parcel in) {
@@ -16,7 +18,6 @@ public class Sudoku implements Parcelable {
             return new Sudoku[size];
         }
     };
-
     public Cell[] cells;
 
     public Sudoku(int [] numbers) {
@@ -26,14 +27,15 @@ public class Sudoku implements Parcelable {
         }
 
         int value;
-        for (int i = 0; i < 81; i++)
+        for (int position = 0; position < 81; position++)
         {
-            value = numbers[i];
+            value = numbers[position];
             if (value != 0)
             {
-                cells[i].value = value;
-                cells[i].domain.clear();
-                narrowDomain(i, value);
+                cells[position].value = value;
+                cells[position].isConstant = true;
+                cells[position].domain.clear();
+                Utils.narrowDomain(this, position, value);
             }
         }
     }
@@ -42,68 +44,21 @@ public class Sudoku implements Parcelable {
         cells = new Cell[81];
         for (int i = 0; i < cells.length; i++) {
             cells[i] = new Cell();
-        }
-
-        for (int i = 0; i < 81; i++) // copy all variables from parent
-        {
+            // copy all variables from parent
             cells[i].value = parent.cells[i].value;
             cells[i].domain = new ArrayList<>(parent.cells[i].domain);
         }
+
         // then assign variableNumber to value and clear the domain
         cells[position].value = value;
         cells[position].domain.clear();
         // now other variables that share domain with this variable need to narrow domain
-        narrowDomain(position, value);
+        Utils.narrowDomain(this, position, value);
     }
 
     private Sudoku(Parcel in) {
         cells = new Cell[81];
         in.readTypedArray(cells, Cell.CREATOR);
-    }
-
-    // TODO: MOVE THIS
-    private void narrowDomain(int position, int value) {
-        // row
-        int rowNumber = position % 9;
-        int rowStart = position - rowNumber;
-        for (int i = rowStart; i < rowStart + 9; i++)
-        {
-            if (i == position) {
-                continue;
-            }
-            if (cells[i].domain.contains(value))
-            {
-                cells[i].domain.remove(cells[i].domain.indexOf(value));
-            }
-        }
-
-        // column
-        int columnStart = position % 9;
-        for (int i = columnStart; i < columnStart + 81; i += 9)
-        {
-            if (i == position) {
-                continue;
-            }
-            if (cells[i].domain.contains(value))
-            {
-                cells[i].domain.remove(cells[i].domain.indexOf(value));
-            }
-        }
-
-        // area
-        int columnPlace = position % 3;
-        int rowPlace = (position / 9) % 3;
-        int areaStart = position - (9 * rowPlace) - columnPlace;
-        for (int i = areaStart; i < areaStart + 27; i += 9) {
-            for (int j = i; j < i + 3; j++)
-            {
-                if (j == position) { continue; }
-                if (cells[j].domain.contains(value))
-                {
-                    cells[j].domain.remove(cells[j].domain.indexOf(value));
-                }
-            }
-        }
     }
 
     @Override

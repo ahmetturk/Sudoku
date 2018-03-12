@@ -7,43 +7,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cell implements Parcelable {
-    public static final Parcelable.Creator<Cell> CREATOR
-            = new Parcelable.Creator<Cell>() {
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Cell> CREATOR = new Parcelable.Creator<Cell>() {
+        @Override
         public Cell createFromParcel(Parcel in) {
             return new Cell(in);
         }
 
+        @Override
         public Cell[] newArray(int size) {
             return new Cell[size];
         }
     };
-
-
     public int value;
     public List<Integer> domain;
-    private int domainIterator;
+    public boolean isConstant;
+
 
     public Cell() {
-        this.value = 0;
-        this.domain = new ArrayList<>(9);
+        value = 0;
+        domain = new ArrayList<>(9);
         for(int i = 1; i < 10; i++) {
             domain.add(i);
         }
-        domainIterator = 0;
+        isConstant = false;
     }
 
-    private Cell(Parcel in) {
+    protected Cell(Parcel in) {
         value = in.readInt();
-        domain = new ArrayList<>();
-        in.readList(domain, Integer.class.getClassLoader());
-        domainIterator = in.readInt();
-    }
-
-    public int getValueFromDomain() {
-        if (domainIterator < domain.size()) {
-            return domain.get(domainIterator++);
+        if (in.readByte() == 0x01) {
+            domain = new ArrayList<>();
+            in.readList(domain, Integer.class.getClassLoader());
+        } else {
+            domain = null;
         }
-        return -1;
+        isConstant = in.readByte() != 0x00;
     }
 
     @Override
@@ -52,9 +51,14 @@ public class Cell implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(value);
-        parcel.writeList(domain);
-        parcel.writeInt(domainIterator);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(value);
+        if (domain == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(domain);
+        }
+        dest.writeByte((byte) (isConstant ? 0x01 : 0x00));
     }
 }
