@@ -34,7 +34,7 @@ public class Cell implements Parcelable {
         isConstant = false;
     }
 
-    protected Cell(Parcel in) {
+    private Cell(Parcel in) {
         value = in.readInt();
         if (in.readByte() == 0x01) {
             domain = new ArrayList<>();

@@ -26,10 +26,9 @@ public class Sudoku implements Parcelable {
             cells[i] = new Cell();
         }
 
-        int value;
         for (int position = 0; position < 81; position++)
         {
-            value = numbers[position];
+            int value = numbers[position];
             if (value != 0)
             {
                 cells[position].value = value;

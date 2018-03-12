@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.ahmet.sudoku.R;
 import com.example.ahmet.sudoku.Sudoku;
@@ -18,7 +17,6 @@ public class SudokuActivity extends AppCompatActivity {
 
     public static final String SUDOKU_INTENT = "sudoku";
 
-    private RecyclerView recyclerView;
     private SudokuSolver sudokuSolver;
     private SudokuAdapter sudokuAdapter;
 
@@ -27,57 +25,71 @@ public class SudokuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
 
-        recyclerView = findViewById(R.id.sudoku_grid);
+        // recycler view shows sudoku
+        RecyclerView recyclerView = findViewById(R.id.sudoku_grid);
 
+        // grid layout manager makes 9 columns in recycler view
         GridLayoutManager layoutManager = new GridLayoutManager(this, 9);
         recyclerView.setLayoutManager(layoutManager);
 
+        // receive sudoku model from main activity
         Sudoku sudoku = getIntent().getParcelableExtra(SUDOKU_INTENT);
 
+        // finds the solution of input sudoku
         sudokuSolver = new SudokuSolver(sudoku);
-        sudokuAdapter = new SudokuAdapter(sudokuSolver.getSudoku());
+
+        // adapter populates views according to input sudoku
+        sudokuAdapter = new SudokuAdapter(this);
+        sudokuAdapter.setSudoku(sudoku);
         recyclerView.setAdapter(sudokuAdapter);
     }
 
+    // writes pressed number to selected item_cell
     public void writeNumberToSudoku(View view) {
-        String text;
+
+        int selected = sudokuAdapter.getSelected();
+        int action;
+
+        if (selected == -1) {
+            return;
+        }
 
         switch (view.getId()) {
             case R.id.button_one:
-                text = getString(R.string.one);
+                action = 1;
                 break;
             case R.id.button_two:
-                text = getString(R.string.two);
+                action = 2;
                 break;
             case R.id.button_three:
-                text = getString(R.string.three);
+                action = 3;
                 break;
             case R.id.button_four:
-                text = getString(R.string.four);
+                action = 4;
                 break;
             case R.id.button_five:
-                text = getString(R.string.five);
+                action = 5;
                 break;
             case R.id.button_six:
-                text = getString(R.string.six);
+                action = 6;
                 break;
             case R.id.button_seven:
-                text = getString(R.string.seven);
+                action = 7;
                 break;
             case R.id.button_eight:
-                text = getString(R.string.eight);
+                action = 8;
                 break;
             case R.id.button_nine:
-                text = getString(R.string.nine);
+                action = 9;
                 break;
             case R.id.button_remove:
-                text = getString(R.string.remove);
+                action = 0;
                 break;
             default:
-                text = "default";
+                return;
         }
 
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        sudokuAdapter.writeNumber(action);
     }
 
     @Override

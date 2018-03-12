@@ -61,7 +61,7 @@ public class SudokuSolver {
                 }
             }
         }
-        return cellNumber; // return an unassinged cell from sudoku
+        return cellNumber; // return an unassinged item_cell from sudoku
     }
 
     private boolean testConsistency(int position, int value) {

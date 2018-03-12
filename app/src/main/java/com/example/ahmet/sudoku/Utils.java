@@ -48,5 +48,20 @@ public class Utils {
             }
         }
     }
+
+    public static Sudoku removeNumber(Sudoku sudoku, int position) {
+        sudoku.cells[position].value = 0;
+        int[] numbers = new int[81];
+        for (int i = 0; i < numbers.length; i++) {
+            numbers[i] = sudoku.cells[i].value;
+        }
+        Sudoku newSudoku = new Sudoku(numbers);
+
+        for (int i = 0; i < newSudoku.cells.length; i++) {
+            newSudoku.cells[i].isConstant = sudoku.cells[i].isConstant;
+        }
+
+        return newSudoku;
+    }
 }
 

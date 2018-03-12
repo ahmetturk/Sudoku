@@ -6,4 +6,10 @@
 
     <color name="mainDivider">#424242</color>
     <color name="smallDivider">#616161</color>
+
+    <color name="selectedCell">#81D4FA</color>
+    <color name="backgroundCell">#FAFAFA</color>
+
+    <color name="constantNumber">#757575</color>
+    <color name="userNumber">#212121</color>
 </resources>
