@@ -1,36 +1,32 @@
-package com.example.ahmet.sudoku;
+package com.example.ahmet.sudoku.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.ahmet.sudoku.utility.Utils;
 
 import java.util.ArrayList;
 
 public class Sudoku implements Parcelable {
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Sudoku> CREATOR
-            = new Parcelable.Creator<Sudoku>() {
-        public Sudoku createFromParcel(Parcel in) {
-            return new Sudoku(in);
-        }
-
-        public Sudoku[] newArray(int size) {
-            return new Sudoku[size];
-        }
-    };
     public Cell[] cells;
 
-    public Sudoku(int [] numbers) {
+    public Sudoku() {
+        cells = new Cell[81];
+        for (int i = 0; i < cells.length; i++) {
+            cells[i] = new Cell();
+        }
+    }
+
+    public Sudoku(int[] numbers) {
         cells = new Cell[81];
         for (int i = 0; i < cells.length; i++) {
             cells[i] = new Cell();
         }
 
-        for (int position = 0; position < 81; position++)
-        {
+        for (int position = 0; position < 81; position++) {
             int value = numbers[position];
-            if (value != 0)
-            {
+            if (value != 0) {
                 cells[position].value = value;
                 cells[position].isConstant = true;
                 cells[position].domain.clear();
@@ -59,6 +55,18 @@ public class Sudoku implements Parcelable {
         cells = new Cell[81];
         in.readTypedArray(cells, Cell.CREATOR);
     }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Sudoku> CREATOR
+            = new Parcelable.Creator<Sudoku>() {
+        public Sudoku createFromParcel(Parcel in) {
+            return new Sudoku(in);
+        }
+
+        public Sudoku[] newArray(int size) {
+            return new Sudoku[size];
+        }
+    };
 
     @Override
     public int describeContents() {

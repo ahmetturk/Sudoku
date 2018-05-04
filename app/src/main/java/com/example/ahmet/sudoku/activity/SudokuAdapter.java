@@ -1,4 +1,4 @@
-package com.example.ahmet.sudoku;
+package com.example.ahmet.sudoku.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,6 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.ahmet.sudoku.R;
+import com.example.ahmet.sudoku.model.Cell;
+import com.example.ahmet.sudoku.model.Sudoku;
+import com.example.ahmet.sudoku.utility.Utils;
 
 import java.util.Locale;
 

@@ -1,14 +1,31 @@
 package com.example.ahmet.sudoku;
 
+import com.example.ahmet.sudoku.model.Sudoku;
+import com.example.ahmet.sudoku.utility.Utils;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import static com.example.ahmet.sudoku.model.Cell.UNASSIGNED;
+
 public class SudokuSolver {
+    private static final int ROW_CELL = 9;
+    private static final int TOTAL_CELL = ROW_CELL * ROW_CELL;
+    private static final int MAX_DOMAIN = 10;
+    private static final int NONE = -1;
+
     private List<Sudoku> sudokuList;
+    private boolean isRandom;
 
     public SudokuSolver(Sudoku sudoku) {
-        sudokuList = new ArrayList<>();
-        sudokuList.add(sudoku);
+        new SudokuSolver(sudoku, false);
+    }
+
+    public SudokuSolver(Sudoku sudoku, boolean isRandom) {
+        this.sudokuList = new ArrayList<>();
+        this.sudokuList.add(sudoku);
+        this.isRandom = isRandom;
     }
 
     public Sudoku getSudoku() {
@@ -23,16 +40,17 @@ public class SudokuSolver {
     }
 
     private boolean step() {
-        Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
+        Sudoku sudoku = getSudoku();
 
-        int unassignedCell = selectUnassingnedCell();
-        if (unassignedCell == -1) {
+        int unassignedCell = selectUnassignedCell();
+        if (unassignedCell == NONE) {
             // this means sudoku is solved
             return false;
         }
 
-        int value = Utils.getValueFromDomain(sudoku.cells[unassignedCell]);
-        if (value == -1) {
+        int value = Utils.getValueFromDomain(sudoku.cells[unassignedCell], isRandom);
+
+        if (value == NONE) {
             // wrong guess go back
             sudokuList.remove(sudokuList.size() - 1);
             return true;
@@ -46,16 +64,15 @@ public class SudokuSolver {
         return true;
     }
 
-    private int selectUnassingnedCell() {
-        Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
-        int cellNumber = -1;
-        int domainSize = 10;
-        for (int i = 0; i < 81; i++)
-        {
-            if (sudoku.cells[i].value == 0) // zero means it is unassigned
+    private int selectUnassignedCell() {
+        Sudoku sudoku = getSudoku();
+
+        int cellNumber = NONE;
+        int domainSize = MAX_DOMAIN;
+        for (int i = 0; i < TOTAL_CELL; i++) {
+            if (sudoku.cells[i].value == UNASSIGNED) // zero means it is unassigned
             {
-                if (domainSize > sudoku.cells[i].domain.size())
-                {
+                if (domainSize > sudoku.cells[i].domain.size()) {
                     cellNumber = i;
                     domainSize = sudoku.cells[i].domain.size();
                 }
@@ -68,10 +85,9 @@ public class SudokuSolver {
         Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
 
         // row
-        int rowNumber = position % 9;
+        int rowNumber = position % ROW_CELL;
         int rowStart = position - rowNumber;
-        for (int i = rowStart; i < rowStart + 9; i++)
-        {
+        for (int i = rowStart; i < rowStart + ROW_CELL; i++) {
             if (i == position) {
                 continue;
             }
@@ -81,10 +97,11 @@ public class SudokuSolver {
         }
 
         // column
-        int columnStart = position % 9;
-        for (int i = columnStart; i < columnStart + 81; i+=9)
-        {
-            if (i == position) { continue; }
+        int columnStart = position % ROW_CELL;
+        for (int i = columnStart; i < columnStart + TOTAL_CELL; i += ROW_CELL) {
+            if (i == position) {
+                continue;
+            }
             if (sudoku.cells[i].domain.size() == 1 && sudoku.cells[i].domain.get(0) == value) {
                 return false;
             }
@@ -92,12 +109,14 @@ public class SudokuSolver {
 
         // area
         int columnPlace = position % 3;
-        int rowPlace = (position / 9) % 3;
-        int areaStart = position - (9 * rowPlace) - columnPlace;
-        for (int i = areaStart; i < areaStart + 27; i += 9) {
-            for (int j = i; j < i + 3; j++)
-            {
-                if (j == position) { continue; }
+        int rowPlace = (position / ROW_CELL) % 3;
+        int areaStart = position - (ROW_CELL * rowPlace) - columnPlace;
+
+        for (int i = areaStart; i < areaStart + 3 * ROW_CELL; i += ROW_CELL) {
+            for (int j = i; j < i + 3; j++) {
+                if (j == position) {
+                    continue;
+                }
                 if (sudoku.cells[j].domain.size() == 1 && sudoku.cells[j].domain.get(0) == value) {
                     return false;
                 }

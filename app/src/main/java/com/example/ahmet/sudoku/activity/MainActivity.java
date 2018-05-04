@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.ahmet.sudoku.GridGenerator;
 import com.example.ahmet.sudoku.R;
-import com.example.ahmet.sudoku.Sudoku;
+import com.example.ahmet.sudoku.model.Sudoku;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -61,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
                 sudokuNumbers = new int[81];
         }
 
-        Sudoku sudoku = new Sudoku(sudokuNumbers);
+        //Sudoku sudoku = new Sudoku(sudokuNumbers);
+
+        GridGenerator gridGenerator = new GridGenerator();
+        Sudoku sudoku = gridGenerator.createGrid();
 
         Intent intent = new Intent(MainActivity.this, SudokuActivity.class);
         intent.putExtra(SudokuActivity.SUDOKU_INTENT, sudoku);

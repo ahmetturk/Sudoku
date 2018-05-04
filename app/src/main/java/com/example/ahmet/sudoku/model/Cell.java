@@ -1,4 +1,4 @@
-package com.example.ahmet.sudoku;
+package com.example.ahmet.sudoku.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,27 +8,16 @@ import java.util.List;
 
 public class Cell implements Parcelable {
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Cell> CREATOR = new Parcelable.Creator<Cell>() {
-        @Override
-        public Cell createFromParcel(Parcel in) {
-            return new Cell(in);
-        }
+    public static final int UNASSIGNED = 0;
 
-        @Override
-        public Cell[] newArray(int size) {
-            return new Cell[size];
-        }
-    };
-    public int value;
+    public Integer value;
     public List<Integer> domain;
     public boolean isConstant;
 
-
     public Cell() {
-        value = 0;
+        value = UNASSIGNED;
         domain = new ArrayList<>(9);
-        for(int i = 1; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             domain.add(i);
         }
         isConstant = false;
@@ -44,6 +33,19 @@ public class Cell implements Parcelable {
         }
         isConstant = in.readByte() != 0x00;
     }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Cell> CREATOR = new Parcelable.Creator<Cell>() {
+        @Override
+        public Cell createFromParcel(Parcel in) {
+            return new Cell(in);
+        }
+
+        @Override
+        public Cell[] newArray(int size) {
+            return new Cell[size];
+        }
+    };
 
     @Override
     public int describeContents() {

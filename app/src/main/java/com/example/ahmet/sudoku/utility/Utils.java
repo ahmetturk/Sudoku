@@ -1,8 +1,16 @@
-package com.example.ahmet.sudoku;
+package com.example.ahmet.sudoku.utility;
+
+import com.example.ahmet.sudoku.model.Cell;
+import com.example.ahmet.sudoku.model.Sudoku;
+
+import java.util.Collections;
 
 public class Utils {
-    public static int getValueFromDomain(Cell cell) {
+    public static int getValueFromDomain(Cell cell, boolean isRandom) {
         if (cell.domain.size() > 0) {
+            if (isRandom) {
+                Collections.shuffle(cell.domain);
+            }
             return cell.domain.remove(0);
         }
         return -1;

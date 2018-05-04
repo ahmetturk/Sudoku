@@ -9,8 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.ahmet.sudoku.R;
-import com.example.ahmet.sudoku.Sudoku;
-import com.example.ahmet.sudoku.SudokuAdapter;
+import com.example.ahmet.sudoku.model.Sudoku;
 import com.example.ahmet.sudoku.SudokuSolver;
 
 public class SudokuActivity extends AppCompatActivity {
