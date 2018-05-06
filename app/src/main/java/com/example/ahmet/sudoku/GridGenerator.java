@@ -5,9 +5,7 @@ import com.example.ahmet.sudoku.utility.SudokuUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GridGenerator {
 
@@ -133,8 +131,8 @@ public class GridGenerator {
     }
 
     private void fillRemainingCells() {
-         SudokuSolver sudokuSolver = new SudokuSolver(sudoku, true);
-         sudokuSolver.solve();
-         sudoku = sudokuSolver.getSudoku();
+        SudokuSolver sudokuSolver = new SudokuSolver(sudoku, true);
+        sudokuSolver.solve();
+        sudoku = sudokuSolver.getSudoku();
     }
 }

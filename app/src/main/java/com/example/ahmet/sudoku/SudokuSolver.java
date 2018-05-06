@@ -67,7 +67,7 @@ public class SudokuSolver {
 
     /**
      * return difficulty score of Sudoku
-     *
+     * <p>
      * Difficulty = Branches * 100 + Empty Cells
      */
     public int getDifficulty() {

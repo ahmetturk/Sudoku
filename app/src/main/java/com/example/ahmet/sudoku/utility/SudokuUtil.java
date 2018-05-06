@@ -7,9 +7,9 @@ public class SudokuUtil {
     /**
      * Add value to Sudoku by cell position
      *
-     * @param sudoku Sudoku where the value be added
+     * @param sudoku   Sudoku where the value be added
      * @param position Position of the cell
-     * @param value Value be added to the cell
+     * @param value    Value be added to the cell
      */
     public static void addValueToSudoku(Sudoku sudoku, int position, int value) {
         // Assign value to cell by position and clear the domain
