@@ -56,36 +56,26 @@ public class GridGenerator {
     }
 
     private void fillTopMiddleBox() {
-        Set<Integer> setNotTop = new HashSet<>();
-        Set<Integer> setNotMiddle = new HashSet<>();
-        Set<Integer> setNotBottom = new HashSet<>();
+        List<Integer> topRowList = getRandomPermutation();
+        List<Integer> middleRowList = getRandomPermutation();
+        List<Integer> bottomRowList = getRandomPermutation();
 
         // top row
-        List<Integer> topRowList = getRandomPermutation();
         for (int i = 0; i < ORDER; i++) {
-            setNotTop.add(sudoku.cells[i].value);
+            topRowList.remove(sudoku.cells[i].value);
         }
-        topRowList.removeAll(setNotTop);
 
         for (int i = 0; i < ORDER; i++) {
-            setNotMiddle.add(topRowList.get(i));
-            setNotBottom.add(topRowList.get(i));
+            middleRowList.remove(topRowList.get(i));
+            bottomRowList.remove(topRowList.get(i));
             SudokuUtil.addValueToSudoku(sudoku, ORDER + i, topRowList.get(i));
         }
 
         // middle row
-        List<Integer> middleRowList = getRandomPermutation();
-        List<Integer> bottomRowList = getRandomPermutation();
-
         for (int i = 0; i < ORDER; i++) {
-            setNotMiddle.add(sudoku.cells[BOX_SIZE + i].value);
+            middleRowList.remove(sudoku.cells[BOX_SIZE + i].value);
+            bottomRowList.remove(sudoku.cells[2 * BOX_SIZE + i].value);
         }
-        middleRowList.removeAll(setNotMiddle);
-
-        for (int i = 0; i < ORDER; i++) {
-            setNotBottom.add(sudoku.cells[2 * BOX_SIZE + i].value);
-        }
-        bottomRowList.removeAll(setNotBottom);
 
         int j = 0;
         while (bottomRowList.size() > ORDER && j < ORDER) {
@@ -107,16 +97,11 @@ public class GridGenerator {
     }
 
     private void fillTopRightBox() {
-        List<Integer> rowList;
-        Set<Integer> setNot = new HashSet<>();
-
         for (int i = 0; i < ORDER; i++) {
-            rowList = getRandomPermutation();
+            List<Integer> rowList = getRandomPermutation();
             for (int j = 0; j < 2 * ORDER; j++) {
-                setNot.add(sudoku.cells[i * BOX_SIZE + j].value);
+                rowList.remove(sudoku.cells[i * BOX_SIZE + j].value);
             }
-            rowList.removeAll(setNot);
-            setNot.clear();
 
             for (int j = 0; j < ORDER; j++) {
                 SudokuUtil.addValueToSudoku(sudoku,
@@ -126,13 +111,11 @@ public class GridGenerator {
     }
 
     private void fillFirstColumn() {
-        List<Integer> rowList = getRandomPermutation();;
-        Set<Integer> setNot = new HashSet<>();
+        List<Integer> rowList = getRandomPermutation();
 
         for (int i = 0; i < ORDER; i++) {
-            setNot.add(sudoku.cells[i * BOX_SIZE].value);
+            rowList.remove(sudoku.cells[i * BOX_SIZE].value);
         }
-        rowList.removeAll(setNot);
 
         for (int i = 0; i < 2 * ORDER; i++) {
             SudokuUtil.addValueToSudoku(sudoku,
