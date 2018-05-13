@@ -1,10 +1,10 @@
 package com.example.ahmet.sudoku;
 
 import com.example.ahmet.sudoku.model.Sudoku;
-import com.example.ahmet.sudoku.utility.CellUtil;
 import com.example.ahmet.sudoku.utility.SudokuUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.ahmet.sudoku.model.Cell.UNASSIGNED;
@@ -19,7 +19,6 @@ public class SudokuSolver {
     private Sudoku solution;
     private boolean isRandom;
     private boolean isValid;
-    private int difficulty;
 
     public SudokuSolver(Sudoku sudoku) {
         this(sudoku, false);
@@ -30,7 +29,6 @@ public class SudokuSolver {
         sudokuList.add(sudoku);
         isRandom = random;
         isValid = false;
-        difficulty = 1;
     }
 
     public Sudoku getSolution() {
@@ -59,7 +57,7 @@ public class SudokuSolver {
                 }
 
             } else {
-                int value = CellUtil.getValueFromDomain(sudoku.cells[unassignedCell], isRandom);
+                int value = getValueFromDomain(sudoku, unassignedCell);
 
                 if (value != NONE) {
                     boolean isConsistent = testConsistency(sudoku, unassignedCell, value);
@@ -94,8 +92,7 @@ public class SudokuSolver {
      * Difficulty = Branches * 100 + Empty Cells
      */
     public int getDifficulty() {
-        // TODO implement this
-        return difficulty;
+        return solution.difficulty;
     }
 
     private int selectUnassignedCell(Sudoku sudoku) {
@@ -154,5 +151,26 @@ public class SudokuSolver {
         }
 
         return true;
+    }
+
+    private int getValueFromDomain(Sudoku sudoku, int unassignedCell) {
+        int value;
+
+        List<Integer> domain = sudoku.cells[unassignedCell].domain;
+
+        // shuffle only for first time
+        if (isRandom && sudoku.cellIterator == 0) {
+            Collections.shuffle(domain);
+        }
+
+        // is there any element for cell iterator in domain
+        if (sudoku.cellIterator <= domain.size() - 1) {
+            value = domain.get(sudoku.cellIterator);
+            sudoku.cellIterator++;
+        } else {
+            value = NONE;
+        }
+
+        return value;
     }
 }

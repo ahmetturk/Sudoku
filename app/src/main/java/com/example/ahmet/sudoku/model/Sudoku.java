@@ -10,12 +10,16 @@ import java.util.ArrayList;
 public class Sudoku implements Parcelable {
 
     public Cell[] cells;
+    public int difficulty;
+    public int cellIterator;
 
     public Sudoku() {
         cells = new Cell[81];
         for (int i = 0; i < cells.length; i++) {
             cells[i] = new Cell();
         }
+        difficulty = 0;
+        cellIterator = 0;
     }
 
     // TODO Ilerde silinecek

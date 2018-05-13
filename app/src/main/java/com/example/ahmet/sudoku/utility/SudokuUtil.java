@@ -30,6 +30,11 @@ public final class SudokuUtil {
             newSudoku.cells[i].domain = new ArrayList<>(sudoku.cells[i].domain);
         }
 
+        newSudoku.difficulty = sudoku.difficulty + 1;
+        if (sudoku.cells[position].domain.size() > 1) {
+            newSudoku.difficulty += 100;
+        }
+
         // then assign variableNumber to value and clear the domain
         newSudoku.cells[position].value = value;
         newSudoku.cells[position].domain.clear();
