@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.ahmet.sudoku.R;
 import com.example.ahmet.sudoku.model.Cell;
 import com.example.ahmet.sudoku.model.Sudoku;
-import com.example.ahmet.sudoku.utility.Utils;
+import com.example.ahmet.sudoku.utility.SudokuUtil;
 
 import java.util.Locale;
 
@@ -80,7 +80,7 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdap
         // silinmek isteniyor
         if (action == 0) {
             // Sayiyi sil ve tum sodukoyu bastan olustur
-            mSudoku = Utils.removeNumber(mSudoku, mSelected);
+            mSudoku = SudokuUtil.removeNumber(mSudoku, mSelected);
         }
         // selected cell su an bos
         else if (mSudoku.cells[mSelected].value == 0) {
@@ -89,7 +89,7 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdap
                 mSudoku.cells[mSelected].value = action;
                 mSudoku.cells[mSelected].domain.clear();
                 // Varsa sayiyi yaz ve narrow domaini cagir
-                Utils.narrowDomain(mSudoku, mSelected, action);
+                SudokuUtil.narrowDomain(mSudoku, mSelected, action);
             } else {
                 return;
             }
@@ -98,21 +98,21 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdap
         else if (mSudoku.cells[mSelected].value != action) {
             int previous = mSudoku.cells[mSelected].value;
 
-            mSudoku = Utils.removeNumber(mSudoku, mSelected);
+            mSudoku = SudokuUtil.removeNumber(mSudoku, mSelected);
 
             // istenen sayi yazilabilir domainde var
             if (mSudoku.cells[mSelected].domain.contains(action)) {
                 mSudoku.cells[mSelected].value = action;
                 mSudoku.cells[mSelected].domain.clear();
                 // Varsa sayiyi yaz ve narrow domaini cagir
-                Utils.narrowDomain(mSudoku, mSelected, action);
+                SudokuUtil.narrowDomain(mSudoku, mSelected, action);
             }
             // domainde yokmus bari eskisini tekrar yazalim
             else if (mSudoku.cells[mSelected].domain.contains(previous)) {
                 mSudoku.cells[mSelected].value = previous;
                 mSudoku.cells[mSelected].domain.clear();
                 // Varsa sayiyi yaz ve narrow domaini cagir
-                Utils.narrowDomain(mSudoku, mSelected, previous);
+                SudokuUtil.narrowDomain(mSudoku, mSelected, previous);
                 return;
             }
             // onu da yazamadik madem bos dursun o zaman :)

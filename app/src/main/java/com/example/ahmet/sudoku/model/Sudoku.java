@@ -3,7 +3,7 @@ package com.example.ahmet.sudoku.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.ahmet.sudoku.utility.Utils;
+import com.example.ahmet.sudoku.utility.SudokuUtil;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,7 @@ public class Sudoku implements Parcelable {
         }
     }
 
+    // TODO Ilerde silinecek
     public Sudoku(int[] numbers) {
         cells = new Cell[81];
         for (int i = 0; i < cells.length; i++) {
@@ -30,27 +31,12 @@ public class Sudoku implements Parcelable {
                 cells[position].value = value;
                 cells[position].isConstant = true;
                 cells[position].domain.clear();
-                Utils.narrowDomain(this, position, value);
+                SudokuUtil.narrowDomain(this, position, value);
             }
         }
     }
 
-    public Sudoku(Sudoku parent, int position, int value) {
-        cells = new Cell[81];
-        for (int i = 0; i < cells.length; i++) {
-            cells[i] = new Cell();
-            // copy all variables from parent
-            cells[i].value = parent.cells[i].value;
-            cells[i].domain = new ArrayList<>(parent.cells[i].domain);
-        }
-
-        // then assign variableNumber to value and clear the domain
-        cells[position].value = value;
-        cells[position].domain.clear();
-        // now other variables that share domain with this variable need to narrow domain
-        Utils.narrowDomain(this, position, value);
-    }
-
+    // CODE BELOW RELATED ANDROID PARCELABLE, NOT FOR SUDOKU
     private Sudoku(Parcel in) {
         cells = new Cell[81];
         in.readTypedArray(cells, Cell.CREATOR);

@@ -9,6 +9,7 @@ import java.util.List;
 public class Cell implements Parcelable {
 
     public static final int UNASSIGNED = 0;
+    private static final int DOMAIN_SIZE = 9;
 
     public Integer value;
     public List<Integer> domain;
@@ -16,13 +17,15 @@ public class Cell implements Parcelable {
 
     public Cell() {
         value = UNASSIGNED;
-        domain = new ArrayList<>(9);
-        for (int i = 1; i < 10; i++) {
+        domain = new ArrayList<>(DOMAIN_SIZE);
+        for (int i = 1; i < DOMAIN_SIZE + 1; i++) {
             domain.add(i);
         }
+        // TODO isConstant GameCell'e tasinacak
         isConstant = false;
     }
 
+    // CODE BELOW RELATED ANDROID PARCELABLE, NOT FOR SUDOKU
     private Cell(Parcel in) {
         value = in.readInt();
         if (in.readByte() == 0x01) {

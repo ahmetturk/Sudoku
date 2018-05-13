@@ -1,7 +1,8 @@
 package com.example.ahmet.sudoku;
 
 import com.example.ahmet.sudoku.model.Sudoku;
-import com.example.ahmet.sudoku.utility.Utils;
+import com.example.ahmet.sudoku.utility.CellUtil;
+import com.example.ahmet.sudoku.utility.SudokuUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,44 +16,67 @@ public class SudokuSolver {
     private static final int NONE = -1;
 
     private List<Sudoku> sudokuList;
+    private Sudoku solution;
     private boolean isRandom;
+    private boolean isValid;
+    private int difficulty;
 
     public SudokuSolver(Sudoku sudoku) {
-        new SudokuSolver(sudoku, false);
+        this(sudoku, false);
     }
 
-    public SudokuSolver(Sudoku sudoku, boolean isRandom) {
-        this.sudokuList = new ArrayList<>();
-        this.sudokuList.add(sudoku);
-        this.isRandom = isRandom;
+    public SudokuSolver(Sudoku sudoku, boolean random) {
+        sudokuList = new ArrayList<>();
+        sudokuList.add(sudoku);
+        isRandom = random;
+        isValid = false;
+        difficulty = 1;
     }
 
-    public Sudoku getSudoku() {
-        return sudokuList.get(sudokuList.size() - 1);
+    public Sudoku getSolution() {
+        return solution;
     }
 
     public void solve() {
         while (true) {
-            Sudoku sudoku = getSudoku();
+            Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
 
-            int unassignedCell = selectUnassignedCell();
+            int unassignedCell = selectUnassignedCell(sudoku);
+
+            // this means sudoku is solved
             if (unassignedCell == NONE) {
-                // this means sudoku is solved
-                break;
-            }
+                if (!isValid) {
+                    isValid = true;
+                    solution = sudoku;
 
-            int value = Utils.getValueFromDomain(sudoku.cells[unassignedCell], isRandom);
+                    // remove the solution and continue to search another one
+                    sudokuList.remove(sudokuList.size() - 1);
 
-            if (value == NONE) {
-                // wrong guess go back
-                sudokuList.remove(sudokuList.size() - 1);
-                continue;
-            }
+                } else {
+                    // sudoku has second solution so it is not valid
+                    isValid = false;
+                    break;
+                }
 
-            boolean isConsistent = testConsistency(unassignedCell, value);
-            if (isConsistent) {
-                // write value to unassigned cell of Sudoku
-                sudokuList.add(new Sudoku(sudoku, unassignedCell, value));
+            } else {
+                int value = CellUtil.getValueFromDomain(sudoku.cells[unassignedCell], isRandom);
+
+                if (value != NONE) {
+                    boolean isConsistent = testConsistency(sudoku, unassignedCell, value);
+                    if (isConsistent) {
+                        // write value to unassigned cell of Sudoku
+                        sudokuList.add(SudokuUtil.addNumber(sudoku, unassignedCell, value));
+                    }
+
+                } else {
+                    // wrong guess go back
+                    sudokuList.remove(sudokuList.size() - 1);
+
+                    // all sudoku branches traversed
+                    if (sudokuList.isEmpty()) {
+                        break;
+                    }
+                }
             }
         }
     }
@@ -61,8 +85,7 @@ public class SudokuSolver {
      * return true if solved Sudoku has unique solution
      */
     public boolean isValid() {
-        // TODO implement this
-        return true;
+        return isValid;
     }
 
     /**
@@ -72,12 +95,10 @@ public class SudokuSolver {
      */
     public int getDifficulty() {
         // TODO implement this
-        return 1;
+        return difficulty;
     }
 
-    private int selectUnassignedCell() {
-        Sudoku sudoku = getSudoku();
-
+    private int selectUnassignedCell(Sudoku sudoku) {
         int cellNumber = NONE;
         int domainSize = MAX_DOMAIN;
         for (int i = 0; i < TOTAL_CELL; i++) {
@@ -92,9 +113,7 @@ public class SudokuSolver {
         return cellNumber; // return an unassigned item_cell from sudoku
     }
 
-    private boolean testConsistency(int position, int value) {
-        Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
-
+    private boolean testConsistency(Sudoku sudoku, int position, int value) {
         // row
         int rowNumber = position % ROW_CELL;
         int rowStart = position - rowNumber;

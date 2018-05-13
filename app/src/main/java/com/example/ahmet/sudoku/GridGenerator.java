@@ -12,7 +12,7 @@ public class GridGenerator {
     private static final int ORDER = 3;
     private static final int BOX_SIZE = ORDER * ORDER;
 
-    private Sudoku sudoku;
+    private static Sudoku sudoku;
 
     public GridGenerator() {
 
@@ -21,7 +21,7 @@ public class GridGenerator {
     /**
      * Create a fully completed Sudoku grid
      */
-    public Sudoku createGrid() {
+    public static Sudoku createGrid() {
         sudoku = new Sudoku();
 
         // First, add numbers to top-left box of Sudoku
@@ -42,7 +42,7 @@ public class GridGenerator {
         return sudoku;
     }
 
-    private void fillTopLeftBox() {
+    private static void fillTopLeftBox() {
         List<Integer> firstBoxList = getRandomPermutation();
         for (int i = 0; i < ORDER; i++) {
             for (int j = 0; j < ORDER; j++) {
@@ -53,16 +53,18 @@ public class GridGenerator {
         }
     }
 
-    private void fillTopMiddleBox() {
+    private static void fillTopMiddleBox() {
         List<Integer> topRowList = getRandomPermutation();
         List<Integer> middleRowList = getRandomPermutation();
         List<Integer> bottomRowList = getRandomPermutation();
 
-        // top row
         for (int i = 0; i < ORDER; i++) {
             topRowList.remove(sudoku.cells[i].value);
+            middleRowList.remove(sudoku.cells[BOX_SIZE + i].value);
+            bottomRowList.remove(sudoku.cells[2 * BOX_SIZE + i].value);
         }
 
+        // top row
         for (int i = 0; i < ORDER; i++) {
             middleRowList.remove(topRowList.get(i));
             bottomRowList.remove(topRowList.get(i));
@@ -70,11 +72,6 @@ public class GridGenerator {
         }
 
         // middle row
-        for (int i = 0; i < ORDER; i++) {
-            middleRowList.remove(sudoku.cells[BOX_SIZE + i].value);
-            bottomRowList.remove(sudoku.cells[2 * BOX_SIZE + i].value);
-        }
-
         int j = 0;
         while (bottomRowList.size() > ORDER && j < ORDER) {
             bottomRowList.remove(middleRowList.get(j));
@@ -94,7 +91,7 @@ public class GridGenerator {
         }
     }
 
-    private void fillTopRightBox() {
+    private static void fillTopRightBox() {
         for (int i = 0; i < ORDER; i++) {
             List<Integer> rowList = getRandomPermutation();
             for (int j = 0; j < 2 * ORDER; j++) {
@@ -108,7 +105,7 @@ public class GridGenerator {
         }
     }
 
-    private void fillFirstColumn() {
+    private static void fillFirstColumn() {
         List<Integer> rowList = getRandomPermutation();
 
         for (int i = 0; i < ORDER; i++) {
@@ -121,7 +118,7 @@ public class GridGenerator {
         }
     }
 
-    private List<Integer> getRandomPermutation() {
+    private static List<Integer> getRandomPermutation() {
         List<Integer> list = new ArrayList<>(BOX_SIZE);
         for (int i = 1; i <= BOX_SIZE; i++) {
             list.add(i);
@@ -130,9 +127,9 @@ public class GridGenerator {
         return list;
     }
 
-    private void fillRemainingCells() {
+    private static void fillRemainingCells() {
         SudokuSolver sudokuSolver = new SudokuSolver(sudoku, true);
         sudokuSolver.solve();
-        sudoku = sudokuSolver.getSudoku();
+        sudoku = sudokuSolver.getSolution();
     }
 }

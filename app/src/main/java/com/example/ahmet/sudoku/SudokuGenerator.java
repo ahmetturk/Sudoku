@@ -1,7 +1,7 @@
 package com.example.ahmet.sudoku;
 
 import com.example.ahmet.sudoku.model.Sudoku;
-import com.example.ahmet.sudoku.utility.Utils;
+import com.example.ahmet.sudoku.utility.SudokuUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -26,8 +26,10 @@ public class SudokuGenerator {
         // while reaching desired difficulty
         while (score > difficulty) {
 
+            Sudoku sudoku = sudokuList.get(sudokuList.size() - 1);
+
             // remove a random cell from Sudoku
-            removeRandomCell();
+            removeRandomCell(sudoku);
 
             // test if it is still valid Sudoku
             SudokuSolver sudokuSolver = new SudokuSolver(getSudoku());
@@ -46,16 +48,15 @@ public class SudokuGenerator {
         return getSudoku();
     }
 
-    private void removeRandomCell() {
+    private void removeRandomCell(Sudoku sudoku) {
         int position;
-        Sudoku sudoku = getSudoku();
 
         do {
             position = rand.nextInt(81);
 
         } while (sudoku.cells[position].value != 0);
 
-        sudokuList.add(Utils.removeNumber(sudoku, position));
+        sudokuList.add(SudokuUtil.removeNumber(sudoku, position));
     }
 
     public Sudoku getSudoku() {

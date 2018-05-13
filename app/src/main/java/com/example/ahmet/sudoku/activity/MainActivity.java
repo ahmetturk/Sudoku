@@ -64,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Sudoku sudoku = new Sudoku(sudokuNumbers);
 
-        GridGenerator gridGenerator = new GridGenerator();
-        Sudoku sudoku = gridGenerator.createGrid();
+        Sudoku sudoku = GridGenerator.createGrid();
 
         Intent intent = new Intent(MainActivity.this, SudokuActivity.class);
         intent.putExtra(SudokuActivity.SUDOKU_INTENT, sudoku);
