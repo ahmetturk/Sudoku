@@ -13,7 +13,7 @@ public final class SudokuUtil {
      * @param position Position of the cell
      * @param value    Value be added to the cell
      */
-    public static void addValueToSudoku(Sudoku sudoku, int position, int value) {
+    public static void addValueToSudoku(Sudoku sudoku, int position, Integer value) {
         // Assign value to cell by position and clear the domain
         sudoku.cells[position].value = value;
         sudoku.cells[position].domain.clear();
@@ -21,7 +21,7 @@ public final class SudokuUtil {
         narrowDomain(sudoku, position, value);
     }
 
-    public static Sudoku addNumber(Sudoku sudoku, int position, int value) {
+    public static Sudoku addNumber(Sudoku sudoku, int position, Integer value) {
         Sudoku newSudoku = new Sudoku();
 
         for (int i = 0; i < newSudoku.cells.length; i++) {
@@ -45,22 +45,16 @@ public final class SudokuUtil {
     }
 
     public static Sudoku removeNumber(Sudoku sudoku, int position) {
-        // TODO Gelistirilebilir
-        sudoku.cells[position].value = 0;
-        int[] numbers = new int[81];
+        Integer[] numbers = new Integer[81];
         for (int i = 0; i < numbers.length; i++) {
             numbers[i] = sudoku.cells[i].value;
         }
-        Sudoku newSudoku = new Sudoku(numbers);
+        numbers[position] = 0;
 
-        for (int i = 0; i < newSudoku.cells.length; i++) {
-            newSudoku.cells[i].isConstant = sudoku.cells[i].isConstant;
-        }
-
-        return newSudoku;
+        return new Sudoku(numbers);
     }
 
-    public static void narrowDomain(Sudoku sudoku, int position, int value) {
+    public static void narrowDomain(Sudoku sudoku, int position, Integer value) {
 
         // row
         int rowNumber = position % 9;
@@ -69,9 +63,7 @@ public final class SudokuUtil {
             if (i == position) {
                 continue;
             }
-            if (sudoku.cells[i].domain.contains(value)) {
-                sudoku.cells[i].domain.remove(sudoku.cells[i].domain.indexOf(value));
-            }
+            sudoku.cells[i].domain.remove(value);
         }
 
         // column
@@ -80,9 +72,7 @@ public final class SudokuUtil {
             if (i == position) {
                 continue;
             }
-            if (sudoku.cells[i].domain.contains(value)) {
-                sudoku.cells[i].domain.remove(sudoku.cells[i].domain.indexOf(value));
-            }
+            sudoku.cells[i].domain.remove(value);
         }
 
         // area
@@ -94,9 +84,7 @@ public final class SudokuUtil {
                 if (j == position) {
                     continue;
                 }
-                if (sudoku.cells[j].domain.contains(value)) {
-                    sudoku.cells[j].domain.remove(sudoku.cells[j].domain.indexOf(value));
-                }
+                sudoku.cells[j].domain.remove(value);
             }
         }
     }

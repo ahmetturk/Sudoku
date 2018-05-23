@@ -44,7 +44,7 @@ public class SudokuActivity extends AppCompatActivity {
     public void writeNumberToSudoku(View view) {
 
         int selected = sudokuAdapter.getSelected();
-        int action;
+        Integer action;
 
         if (selected == -1) {
             return;

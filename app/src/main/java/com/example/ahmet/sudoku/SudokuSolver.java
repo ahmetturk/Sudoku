@@ -57,7 +57,7 @@ public class SudokuSolver {
                 }
 
             } else {
-                int value = getValueFromDomain(sudoku, unassignedCell);
+                Integer value = getValueFromDomain(sudoku, unassignedCell);
 
                 if (value != NONE) {
                     boolean isConsistent = testConsistency(sudoku, unassignedCell, value);

@@ -76,7 +76,7 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdap
         return 0;
     }
 
-    public void writeNumber(int action) {
+    public void writeNumber(Integer action) {
         // silinmek isteniyor
         if (action == 0) {
             // Sayiyi sil ve tum sodukoyu bastan olustur
@@ -96,7 +96,7 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdap
         }
         // su an bos degil ve yazili olandan baska sayi yazilmak isteniyor
         else if (mSudoku.cells[mSelected].value != action) {
-            int previous = mSudoku.cells[mSelected].value;
+            Integer previous = mSudoku.cells[mSelected].value;
 
             mSudoku = SudokuUtil.removeNumber(mSudoku, mSelected);
 

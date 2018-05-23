@@ -22,15 +22,14 @@ public class Sudoku implements Parcelable {
         cellIterator = 0;
     }
 
-    // TODO Ilerde silinecek
-    public Sudoku(int[] numbers) {
+    public Sudoku(Integer[] numbers) {
         cells = new Cell[81];
         for (int i = 0; i < cells.length; i++) {
             cells[i] = new Cell();
         }
 
         for (int position = 0; position < 81; position++) {
-            int value = numbers[position];
+            Integer value = numbers[position];
             if (value != 0) {
                 cells[position].value = value;
                 cells[position].isConstant = true;
