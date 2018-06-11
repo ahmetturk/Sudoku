@@ -27,17 +27,20 @@ public class MainActivity extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.easy_button:
-                difficulty = 40;
+                difficulty = 35;
                 break;
             case R.id.medium_button:
-                difficulty = 100;
+                difficulty = 50;
                 break;
             case R.id.hard_button:
-                difficulty = 500;
+                difficulty = 100;
+                break;
+            case R.id.expert_button:
+                difficulty = 200;
                 break;
         }
 
-        Sudoku sudoku = sudokuGenerator.createSudoku(grid, difficulty);
+        Sudoku sudoku = sudokuGenerator.create(grid, difficulty);
 
         Intent intent = new Intent(MainActivity.this, SudokuActivity.class);
         intent.putExtra(SudokuActivity.SUDOKU_INTENT, sudoku);

@@ -2,8 +2,11 @@ package com.example.ahmet.sudoku.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,13 +54,14 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdap
             holder.mCellText.setText(" ");
         }
 
-        int textColor;
         if (isConstant) {
-            textColor = ContextCompat.getColor(mContext, R.color.constantNumber);
+            holder.mCellText.setTypeface(Typeface.DEFAULT);
+            holder.mCellText.setTextColor(Color.BLACK);
         } else {
-            textColor = ContextCompat.getColor(mContext, R.color.userNumber);
+            Typeface typeface = ResourcesCompat.getFont(mContext, R.font.bradley);
+            holder.mCellText.setTypeface(typeface);
+            holder.mCellText.setTextColor(Color.BLUE);
         }
-        holder.mCellText.setTextColor(textColor);
 
         int color;
         if (mSelected == position) {
@@ -80,7 +84,7 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdap
         // silinmek isteniyor
         if (action == 0) {
             // Sayiyi sil ve tum sodukoyu bastan olustur
-            mSudoku = SudokuUtil.removeNumber(mSudoku, mSelected);
+            mSudoku = SudokuUtil.removeNumber(mSudoku, mSelected, true);
         }
         // selected cell su an bos
         else if (mSudoku.cells[mSelected].value == 0) {
@@ -98,7 +102,7 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.SudokuAdap
         else if (mSudoku.cells[mSelected].value != action) {
             Integer previous = mSudoku.cells[mSelected].value;
 
-            mSudoku = SudokuUtil.removeNumber(mSudoku, mSelected);
+            mSudoku = SudokuUtil.removeNumber(mSudoku, mSelected, true);
 
             // istenen sayi yazilabilir domainde var
             if (mSudoku.cells[mSelected].domain.contains(action)) {

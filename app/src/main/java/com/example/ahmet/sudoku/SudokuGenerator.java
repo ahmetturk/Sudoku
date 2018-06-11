@@ -10,17 +10,16 @@ import java.util.Random;
 public class SudokuGenerator {
 
     private List<Sudoku> sudokuList;
-    private int score;
     private Random rand;
 
     public SudokuGenerator() {
         sudokuList = new ArrayList<>();
-        score = 0;
         rand = new Random();
     }
 
-    public Sudoku createSudoku(Sudoku grid, int difficulty) {
+    public Sudoku create(Sudoku grid, int difficulty) {
 
+        int score = 0;
         int size = -1;
 
         sudokuList.add(grid);
@@ -64,7 +63,7 @@ public class SudokuGenerator {
 
         } while (sudoku.cells[position].value == 0);
 
-        sudokuList.add(SudokuUtil.removeNumber(sudoku, position));
+        sudokuList.add(SudokuUtil.removeNumber(sudoku, position, false));
     }
 
     public Sudoku getSudoku() {

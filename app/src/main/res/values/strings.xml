@@ -2,9 +2,10 @@
     <string name="app_name">Sudoku</string>
     <string name="solve">Solve</string>
 
-    <string name="easy">easy</string>
-    <string name="medium">medium</string>
-    <string name="hard">hard</string>
+    <string name="easy">Easy Game</string>
+    <string name="medium">Medium Game</string>
+    <string name="hard">Hard Game</string>
+    <string name="expert">Expert Game</string>
 
     <string name="one">1</string>
     <string name="two">2</string>

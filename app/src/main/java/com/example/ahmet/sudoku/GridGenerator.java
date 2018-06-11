@@ -106,15 +106,15 @@ public class GridGenerator {
     }
 
     private static void fillFirstColumn() {
-        List<Integer> rowList = getRandomPermutation();
+        List<Integer> columnList = getRandomPermutation();
 
         for (int i = 0; i < ORDER; i++) {
-            rowList.remove(sudoku.cells[i * BOX_SIZE].value);
+            columnList.remove(sudoku.cells[i * BOX_SIZE].value);
         }
 
         for (int i = 0; i < 2 * ORDER; i++) {
             SudokuUtil.addValueToSudoku(sudoku,
-                    (i + 3) * BOX_SIZE, rowList.get(i));
+                    (i + 3) * BOX_SIZE, columnList.get(i));
         }
     }
 

@@ -28,6 +28,7 @@ public final class SudokuUtil {
             // copy all variables from sudoku
             newSudoku.cells[i].value = sudoku.cells[i].value;
             newSudoku.cells[i].domain = new ArrayList<>(sudoku.cells[i].domain);
+            newSudoku.cells[i].isConstant = sudoku.cells[i].isConstant;
         }
 
         newSudoku.difficulty = sudoku.difficulty + 1;
@@ -44,14 +45,20 @@ public final class SudokuUtil {
         return newSudoku;
     }
 
-    public static Sudoku removeNumber(Sudoku sudoku, int position) {
+    public static Sudoku removeNumber(Sudoku sudoku, int position, boolean isGame) {
         Integer[] numbers = new Integer[81];
         for (int i = 0; i < numbers.length; i++) {
             numbers[i] = sudoku.cells[i].value;
         }
         numbers[position] = 0;
 
-        return new Sudoku(numbers);
+        Sudoku newSudoku = new Sudoku(numbers);
+        if (isGame) {
+            for (int i = 0; i < newSudoku.cells.length; i++) {
+                newSudoku.cells[i].isConstant = sudoku.cells[i].isConstant;
+            }
+        }
+        return newSudoku;
     }
 
     public static void narrowDomain(Sudoku sudoku, int position, Integer value) {
