@@ -18,6 +18,7 @@ public class SudokuActivity extends AppCompatActivity {
 
     private SudokuAdapter sudokuAdapter;
     private Sudoku sudoku;
+    private Sudoku solution;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,10 @@ public class SudokuActivity extends AppCompatActivity {
 
         // receive sudoku model from main activity
         sudoku = getIntent().getParcelableExtra(SUDOKU_INTENT);
+
+        SudokuSolver sudokuSolver = new SudokuSolver(sudoku);
+        sudokuSolver.solve();
+        solution = sudokuSolver.getSolution();
 
         // adapter populates views according to input sudoku
         sudokuAdapter = new SudokuAdapter(this);
@@ -98,10 +103,7 @@ public class SudokuActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_solve:
-                // finds the solution of input sudoku
-                SudokuSolver sudokuSolver = new SudokuSolver(sudoku);
-                sudokuSolver.solve();
-                sudokuAdapter.setSudoku(sudokuSolver.getSolution());
+                sudokuAdapter.setSudoku(solution);
         }
 
         return super.onOptionsItemSelected(item);

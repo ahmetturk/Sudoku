@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 difficulty = 35;
                 break;
             case R.id.medium_button:
-                difficulty = 50;
+                difficulty = 45;
                 break;
             case R.id.hard_button:
                 difficulty = 100;
